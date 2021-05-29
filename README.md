@@ -3,8 +3,6 @@
 
 # Get-an-idea
 
----
-
 ##INTRODUCTION
 This is a producer-consumer problem demonstrating shared memory synchronization and application of semaphore to achieve mutual exclusion in synchronization of memory.
 
