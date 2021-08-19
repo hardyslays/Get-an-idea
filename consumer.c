@@ -118,42 +118,29 @@ void getIdea()
             printf("WRONG CHOICE ENTERED....PLEASE ENTER YOUR CHOICE AGAIN:    ");
             scanf("%d", &choice);
         }
-    if(choice == -1)
+    
+    FILE *temp = fopen("temp.bin", "wb+");
+    f = fopen(PATH, "rb");
+    struct Idea tempId;
+    
+    fseek(f, 0, SEEK_SET);
+    fseek(temp, 0, SEEK_SET);
+    
+    for (int j = 1; j < i+(choice == -1); j++)
     {
-        printf("\n\n  NO IDEA SELECTED FOR CHECKOUT.....PRESS ENTER TO RETURN TO MAIN MENU.\n");
+        if(j == choice)fseek(f, sizeof(tempId), SEEK_CUR);
+        fread(&tempId, sizeof(tempId), 1, f);
+        fwrite(&tempId, sizeof(tempId), 1, temp);
     }
-    else
-    {
-        FILE *temp = fopen("temp.bin", "wb+");
-        f = fopen(PATH, "rb");
-        struct Idea tempId;
-        
-        fseek(f, 0, SEEK_SET);
-        fseek(temp, 0, SEEK_SET);
-        
-        for (int j = 1; j < i; j++)
-        {
-            if(j == choice)fseek(f, sizeof(struct Idea), SEEK_CUR);
-            fread(&tempId, sizeof(tempId), 1, f);
-            fwrite(&tempId, sizeof(tempId), 1, temp);
-        }
+    fclose(temp);
+    remove(PATH);
+    rename("temp.bin", PATH);
+    
+    if(choice == -1)printf("\n\n  NO IDEA SELECTED FOR CHECKOUT.....PRESS ENTER TO RETURN TO MAIN MENU.\n");
+    else printf("\nSUCCESSFULLY COLLECTED THE IDEA.\nPRESS ENTER TO RETURN TO MAIN MENU.\n");
 
-        fclose(f);
-        fclose(temp);
-        remove(PATH);
-        rename("temp.bin", PATH);
-
-        f = fopen(PATH, "rb+");
-        fseek(f, 0, SEEK_END);
-        if(ftell(f) == 0)
-        {
-            remove(PATH);
-        }
-        printf("\nSUCCESSFULLY COLLECTED THE IDEA.\nPRESS ENTER TO RETURN TO MAIN MENU.\n");
-    }
-
-    fclose(f);
     sem_post(sem);
+    getchar();
     getchar();
 }
 
