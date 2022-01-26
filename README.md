@@ -16,7 +16,7 @@ This application is intended to run on Linux only and **does not have cross plat
 
 1. First step is to compile the programs. You will need **pthread** and **rt** libraries. Don't worry, they generally come preinstalled with linux distros. To compile the programs:
 
-   > gcc publicher.c -o publisher -lrt -lpthread
+   > gcc publisher.c -o publisher -lrt -lpthread
   
    > gcc consumer.c -o consumer -lrt -lpthread
 
